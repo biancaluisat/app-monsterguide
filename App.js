@@ -5,14 +5,18 @@ import {
   TextInput,
   FlatList,
   TouchableOpacity,
-  Alert,
   StyleSheet,
   SafeAreaView,
   StatusBar,
 } from 'react-native';
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { characters as initialData } from './data/characters';
+import DetailScreen from './screens/DetailScreen';
 
-import { characters as initialData } from './data/characters.js';
+const Stack = createNativeStackNavigator();
 
+// ─── COMPONENTE: Header ───────────────────────────────────────────────────────
 function Header({ title }) {
   return (
     <View style={styles.header}>
@@ -22,44 +26,30 @@ function Header({ title }) {
   );
 }
 
+// ─── COMPONENTE: CharacterCard ────────────────────────────────────────────────
 function CharacterCard({ item, onPress }) {
   return (
-    <TouchableOpacity
-      style={[styles.card, { backgroundColor: item.cardColor }]}
-      onPress={() => onPress(item)}
-      activeOpacity={0.8}
-    >
+    <View style={[styles.card, { backgroundColor: item.cardColor }]}>
       <Text style={styles.cardEmoji}>{item.emoji}</Text>
       <Text style={styles.cardName}>{item.name}</Text>
       <Text style={styles.cardSub}>{item.monster}</Text>
       <Text style={styles.cardSub}>🎨 {item.color}</Text>
-    </TouchableOpacity>
+
+      <TouchableOpacity style={styles.detailBtn} onPress={() => onPress(item)}>
+        <Text style={styles.detailBtnText}>Mais detalhes +</Text>
+      </TouchableOpacity>
+    </View>
   );
 }
 
-export default function App() {
+// ─── TELA HOME ────────────────────────────────────────────────────────────────
+function HomeScreen({ navigation }) {
   const [search, setSearch] = useState('');
-  const [characters, setCharacters] = useState(initialData);
+  const [characters] = useState(initialData);
 
   const filtered = characters.filter((c) =>
     c.name.toLowerCase().includes(search.toLowerCase())
   );
-
-  const handleCardPress = (character) => {
-    Alert.alert(
-      `${character.emoji} ${character.name}`,
-      `Monstro: ${character.monster}\nIdade: ${character.age}\nEstilo: ${character.color}\n\n✨ ${character.traits}`,
-      [
-        { text: 'Fechar', style: 'cancel' },
-        {
-          text: '🗑 Remover',
-          style: 'destructive',
-          onPress: () =>
-            setCharacters((prev) => prev.filter((c) => c.id !== character.id)),
-        },
-      ]
-    );
-  };
 
   return (
     <SafeAreaView style={styles.safe}>
@@ -82,7 +72,12 @@ export default function App() {
         keyExtractor={(item) => item.id}
         numColumns={2}
         renderItem={({ item }) => (
-          <CharacterCard item={item} onPress={handleCardPress} />
+          <CharacterCard
+            item={item}
+            onPress={(character) =>
+              navigation.navigate('Detail', { character })
+            }
+          />
         )}
         contentContainerStyle={styles.grid}
         ListEmptyComponent={
@@ -93,15 +88,26 @@ export default function App() {
   );
 }
 
+// ─── NAVEGAÇÃO ────────────────────────────────────────────────────────────────
+export default function App() {
+  return (
+    <NavigationContainer>
+      <Stack.Navigator screenOptions={{ headerShown: false }}>
+        <Stack.Screen name="Home" component={HomeScreen} />
+        <Stack.Screen name="Detail" component={DetailScreen} />
+      </Stack.Navigator>
+    </NavigationContainer>
+  );
+}
+
+// ─── ESTILOS ──────────────────────────────────────────────────────────────────
 const styles = StyleSheet.create({
   safe: {
     flex: 1,
-    backgroundColor: '#0e0d0d',
+    backgroundColor: '#8B1A4A',
   },
-
-  // Header
   header: {
-    backgroundColor: '#c50364',
+    backgroundColor: '#1A0A12',
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
@@ -109,10 +115,7 @@ const styles = StyleSheet.create({
     borderBottomWidth: 2,
     borderBottomColor: '#FF69B4',
   },
-  skull: {
-    fontSize: 40,
-    marginHorizontal: 10,
-  },
+  skull: { fontSize: 22, marginHorizontal: 10 },
   headerTitle: {
     color: '#FFFFFF',
     fontSize: 22,
@@ -120,7 +123,6 @@ const styles = StyleSheet.create({
     letterSpacing: 2,
     textTransform: 'uppercase',
   },
-
   searchRow: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -131,17 +133,13 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: '#FF69B4',
   },
-  searchIcon: {
-    fontSize: 16,
-    marginRight: 8,
-  },
+  searchIcon: { fontSize: 16, marginRight: 8 },
   input: {
     flex: 1,
     color: '#fff',
     paddingVertical: 10,
     fontSize: 14,
   },
-
   grid: {
     paddingHorizontal: 10,
     paddingBottom: 20,
@@ -160,10 +158,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: 'rgba(255,255,255,0.12)',
   },
-  cardEmoji: {
-    fontSize: 38,
-    marginBottom: 8,
-  },
+  cardEmoji: { fontSize: 38, marginBottom: 8 },
   cardName: {
     color: '#FFD6EC',
     fontWeight: 'bold',
@@ -177,8 +172,18 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     marginTop: 2,
   },
-
-  // Empty
+  detailBtn: {
+    marginTop: 12,
+    backgroundColor: '#FF69B4',
+    paddingHorizontal: 14,
+    paddingVertical: 6,
+    borderRadius: 20,
+  },
+  detailBtnText: {
+    color: '#1A0A12',
+    fontWeight: 'bold',
+    fontSize: 11,
+  },
   empty: {
     color: '#FF69B4',
     textAlign: 'center',
