@@ -16,7 +16,7 @@ export const characters = [
     age: '15 anos',
     color: 'Roxo e dourado',
     traits: 'Fashionista, confiante',
-    emoji: '🐺',
+    foto: require('../assets/clawdeen.png'),
     cardColor: '#c50364',
   },
   {
@@ -26,7 +26,7 @@ export const characters = [
     age: '15 dias ⚡',
     color: 'Preto, branco e azul',
     traits: 'Costuras no corpo, meio desajeitada',
-    emoji: '⚡',
+    foto: require('../assets/frank.png'),
     cardColor: '#c50364',
   },
   {
@@ -36,7 +36,7 @@ export const characters = [
     age: '15 anos',
     color: 'Azul e verde',
     traits: 'Relax, ama água',
-    emoji: '🌊',
+    foto: require('../assets/lagona.png'),
     cardColor: '#c50364',
   },
   {
@@ -46,7 +46,7 @@ export const characters = [
     age: '~5.800 anos',
     color: 'Dourado, azul',
     traits: 'Patricinha, líder, meio mandona',
-    emoji: '🏺',
+    foto: require('../assets/cleo.png'),
     cardColor: '#c50364',
   },
   {
@@ -56,7 +56,7 @@ export const characters = [
     age: '16 anos',
     color: 'Vermelho',
     traits: 'Super inteligente, fala "zumbiês"',
-    emoji: '🧠',
+    foto: require('../assets/ghoulia.png'),
     cardColor: '#c50364',
   },
 ];
