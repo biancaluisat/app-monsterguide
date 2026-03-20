@@ -7,6 +7,7 @@ import {
   SafeAreaView,
   StatusBar,
   ScrollView,
+  Image,
 } from 'react-native';
 
 export default function DetailScreen({ route, navigation }) {
@@ -35,7 +36,7 @@ export default function DetailScreen({ route, navigation }) {
       <ScrollView contentContainerStyle={styles.content}>
         {/* Hero */}
         <View style={[styles.hero, { backgroundColor: character.cardColor }]}>
-          <Text style={styles.heroEmoji}>{character.emoji}</Text>
+          <Image style={styles.heroImage} source={character.foto} />
           <Text style={styles.heroName}>{character.name}</Text>
           <Text style={styles.heroMonster}>{character.monster}</Text>
         </View>
@@ -109,9 +110,11 @@ const styles = StyleSheet.create({
     borderBottomLeftRadius: 30,
     borderBottomRightRadius: 30,
   },
-  heroEmoji: {
-    fontSize: 80,
+  heroImage: {
+    width: 150,
+    height: 150,
     marginBottom: 12,
+    resizeMode: 'contain',
   },
   heroName: {
     color: '#FFD6EC',

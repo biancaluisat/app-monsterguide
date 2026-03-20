@@ -6,7 +6,7 @@ export const characters = [
     age: '1.600 anos',
     color: 'Rosa e preto 🖤',
     traits: 'Vegana, super fofa, usa sombrinha',
-    emoji: '🧛‍♀️',
+    foto: require('../assets/draculaura.png'),
     cardColor: '#c50364',
   },
   {
