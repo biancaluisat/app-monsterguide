@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import {
   View,
+ Image, 
   Text,
   TextInput,
   FlatList,
@@ -30,7 +31,7 @@ function Header({ title }) {
 function CharacterCard({ item, onPress }) {
   return (
     <View style={[styles.card, { backgroundColor: item.cardColor }]}>
-      <Text style={styles.cardEmoji}>{item.emoji}</Text>
+      <Image style={styles.cardEmoji} source={item.foto} />
       <Text style={styles.cardName}>{item.name}</Text>
       <Text style={styles.cardSub}>{item.monster}</Text>
       <Text style={styles.cardSub}>🎨 {item.color}</Text>
@@ -158,7 +159,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: 'rgba(255,255,255,0.12)',
   },
-  cardEmoji: { fontSize: 38, marginBottom: 8 },
+  cardEmoji: { width: 120, height: 120, marginBottom: 8, resizeMode: 'contain' },
   cardName: {
     color: '#FFD6EC',
     fontWeight: 'bold',
